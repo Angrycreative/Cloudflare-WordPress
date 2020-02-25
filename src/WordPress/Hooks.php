@@ -167,35 +167,34 @@ class Hooks
         }
 		}
 
-		/**
-		 * Purges term_links for terms on term edited.
-		 *
-		 * @param integer $term_id
-		 * @param string $taxonomy
-		 * @return void
-		 */
-		public function purgeTermLink( int $term_id, string $taxonomy ) : void { // phpcs:ignore
-			if ( ! $this->isPluginSpecificCacheEnabled() ) {
-				return;
-			}
-
-			$term = \get_term( $term_id );
-
-			if ( ! $term instanceof \WP_Term ) {
-				return;
-			}
-
-			$wp_domain_list = $this->integrationAPI->getDomainList(); // phpcs:ignore
-
-			$url = \get_term_link( $term, $taxonomy );
-
-			foreach ( $wp_domain_list as $wp_domain ) {
-				$zone_tag = $this->api->getZoneTag( $wp_domain );
-				$is_ok    = $this->api->zonePurgeFiles( $zone_tag, [ $url ] ) ? 'succeeded' : 'failed';
-				$this->logger->debug( 'List of URLs purged are: ' . print_r( [ $url ], true ) );
-				$this->logger->debug( 'purgeCacheByOnlyURLs ' . $is_ok );
-			}
+	/**
+	 * Purges term_links for terms on term edited.
+	 *
+	 * @param integer $term_id
+	 * @param string $taxonomy
+	 * @return void
+	 */
+	public function purgeTermLink( int $term_id, string $taxonomy ) : void { // phpcs:ignore
+		if ( ! $this->isPluginSpecificCacheEnabled() ) {
+			return;
 		}
+
+		$term = \get_term( $term_id );
+		if ( ! $term instanceof \WP_Term ) {
+			return;
+		}
+
+		$wp_domain_list = $this->integrationAPI->getDomainList(); // phpcs:ignore
+
+		$url = \get_term_link( $term, $taxonomy );
+
+		foreach ( $wp_domain_list as $wp_domain ) {
+			$zone_tag = $this->api->getZoneTag( $wp_domain );
+			$is_ok    = $this->api->zonePurgeFiles( $zone_tag, [ $url ] ) ? 'succeeded' : 'failed';
+			$this->logger->debug( 'List of URLs purged are: ' . print_r( [ $url ], true ) );
+			$this->logger->debug( 'purgeCacheByOnlyURLs ' . $is_ok );
+		}
+	}
 
     public function getPostRelatedLinks($postId)
     {
