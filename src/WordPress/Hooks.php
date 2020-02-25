@@ -2,6 +2,7 @@
 
 namespace CF\WordPress;
 
+
 use CF\API\APIInterface;
 use CF\Integration;
 use Psr\Log\LoggerInterface;
