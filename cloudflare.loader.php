@@ -27,6 +27,8 @@ try {
 // Initiliaze Hooks class which contains WordPress hook functions
 $cloudflareHooks = new \CF\WordPress\Hooks();
 
+add_action( 'edited_term', array( $cloudflareHooks, 'purgeTermLink' ), 10, 2 );
+
 add_action('plugins_loaded', array($cloudflareHooks, 'getCloudflareRequestJSON'));
 
 // Enable HTTP2 Server Push
@@ -63,7 +65,7 @@ foreach ($cloudflarePurgeEverythingActions as $action) {
 }
 
 /**
- * You can filter the list of URLs that get purged by Cloudflare after a post is 
+ * You can filter the list of URLs that get purged by Cloudflare after a post is
  * modified by implementing a filter for the "cloudflare_purge_by_url" hook.
  *
  * @Example:
