@@ -165,7 +165,7 @@ class Hooks
                 $this->logger->debug("purgeCacheByRevelantURLs " . $isOK);
             }
         }
-		}
+	}
 
 	/**
 	 * Purges term_links for terms on term edited.
